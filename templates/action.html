@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+	<title>Find Empty Lecture Room Service</title>
+	<style>
+	h1{
+		padding-top:20px;
+		padding-bottom:50px;
+		border-bottom:1px solid black;
+	}
+	form{
+		margin-left: 80px;
+		margin-right: 80px;
+	}
+
+	thead{
+		border-style:double;
+	}
+	table {
+		margin-left:auto;
+		margin-right:auto;
+    	width: 90%;
+    	border: 2px solid #444444;
+    	text-align:center;
+    	border-collapse: collapse;
+  	}
+  	
+  	th, td {
+    border: 1px solid #444444;
+ 	 }
+	</style>
+</head>
+<body>
+		<a href="/" style="color: black; text-decoration:none">
+			<h1 align="center">Find Empty Lecture Room Service</h1>
+		</a>
+		<!-- Title Part-->
+		
+		
+		<form action="/action" method="post"  autocomplete=off>
+			<label style="font-size:xx-large">BuildingName:</label>&nbsp&nbsp
+			<input list="buildingname" name="building" size="100" style="width:1000px; height:30px;" placeholder={{Mybuilding}}>
+			<datalist id="buildingname">
+				<option value="IT대학4호관(제2학생회관)">
+				<option value="IT융복합관(IT융복합공학관)">
+				<option value="제4합동강의동">
+				<option value="공대12호관">
+			</datalist>			
+			<input type="submit">		
+		</form>
+		<br/>
+		
+		<form action="/pick_class" method="post"  autocomplete=off>
+			<label style="font-size:xx-large">ClassRoom:</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+			<input list="ClassRoom" name="ClassRoom" size="100" style="width:1000px; height:30px;" placeholder="typing ClassRoom number">
+			<input type="hidden" name="Building" value={{Mybuilding}}>
+			<datalist id="ClassRoom">
+				{% if Mybuilding =='IT대학4호관(제2학생회관)' %}
+					{% for cl in classnumber %}
+						<option value={{cl}}>
+					{% endfor %}
+				{% elif Mybuilding =="IT융복합관(IT융복합공학관)" %}
+					{% for cl in classnumber %}
+						<option value={{cl}}>
+					{% endfor %}
+				{% elif Mybuilding =="제4합동강의동" %}
+					{% for cl in classnumber %}
+						<option value={{cl}}>
+					{% endfor %}
+				{% elif Mybuilding =="공대12호관" %}
+					{% for cl in classnumber %}
+						<option value={{cl}}>
+					{% endfor %}
+				{% else %}
+					<option value="선택하신 건물은 없는 건물입니다">
+				{% endif %}
+			</datalist>
+			<input type="submit">
+		</form>
+		</br>
+		<div style="margin-left:auto;margin-right:auto">
+			<form action="/emptyroom" method="post" >
+				<input type="hidden" name="Building" value={{Mybuilding}}>
+				<button type="submit">수업있는 강의실은 목록에서 제거</button>
+			</form>
+		</div>
+		</br></br>
+		<table>
+			<thead>{#강의실 목록#}
+				<th>과목 코드</th>
+				<th>과목 명</th>
+				<th>강의 건물</th>
+				<th>강의실</th>
+				<th>요일</th>
+				<th>강의 시작시간</th>
+				<th>강의 종료시간</th>
+			</thead>
+				{% for co in correctlist %}
+			<tr>
+				{% for c in co %}
+					<td>{{c}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</table>		
+</body>  

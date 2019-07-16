@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+	<title>Find Empty Lecture Room Service</title>
+	<style>
+
+	strong{
+		margin:80px;
+	}
+	h1{
+		padding-top:20px;
+		padding-bottom:50px;
+		border-bottom:1px solid black;
+	}
+	
+	form{
+		margin-left: 80px;
+		margin-right: 80px;
+	}
+
+	strong{
+		font-size:30px;
+	}
+	
+	table {
+		margin-left:auto;
+		margin-right:auto;
+    	width: 90%;
+    	border: 2px solid #444444;
+    	text-align:center;
+    	border-collapse: collapse;
+  	}
+	
+	thead{
+		border-bottom:double;
+	}
+	
+	
+ 	 	
+  	th,td{
+    border: 1px solid #444444;
+ 	 }
+ 	 
+ 	 
+ 	.tb-1{
+ 	 	width:200px;
+ 	}
+ 	 
+ 	.ing{
+ 	 		background-color: #bbdefb;
+ 	 }
+	</style>
+</head>
+<body>
+		<a href="/" style="color: black; text-decoration:none">
+			<h1 align="center">Find Empty Lecture Room Service</h1>
+		</a>
+		
+		<!-- Title Part-->
+		
+		
+		<form action="/action" method="post"  autocomplete=off>
+			<label style="font-size:xx-large">BuildingName:</label>&nbsp&nbsp
+			<input list="buildingname" name="building" size="100" style="width:600px; height:30px;" placeholder={{Mybuilding}}>
+			<datalist id="buildingname">
+				<option value="IT대학4호관(제2학생회관)">
+				<option value="IT융복합관(IT융복합공학관)">
+				<option value="제4합동강의동">
+				<option value="공대12호관">
+			</datalist>			
+			<input type="submit">		
+		</form>
+		</br>
+		
+		<form action="/pick_class" method="post"  autocomplete=off>
+			<label style="font-size:xx-large" style="algin:center">ClassRoom:</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+			<input list="ClassRoom" name="ClassRoom" size="100" style="width:600px; height:30px;" placeholder={{myClassRoom}}>
+			<input type="hidden" name="Building" value=Mybuilding>
+			<datalist id="ClassRoom">
+				{% if Mybuilding =='IT대학4호관(제2학생회관)' %}
+					{% for cl in classnumber %}
+						<option value={{cl}}>
+					{% endfor %}
+				{% elif Mybuilding =="IT융복합관(IT융복합공학관)" %}
+					{% for cl in classnumber %}
+						<option value={{cl}}>
+					{% endfor %}
+				{% elif Mybuilding =="제4합동강의동" %}
+					{% for cl in classnumber %}
+						<option value={{cl}}>
+					{% endfor %}
+				{% elif Mybuilding =="공대12호관" %}
+					{% for cl in classnumber %}
+						<option value={{cl}}>
+					{% endfor %}
+				{% else %}
+					<option value="선택하신 건물은 없는 건물입니다">
+				{% endif %}
+			</datalist>
+			<input type="submit">
+		</form>
+		</br>
+		</br>
+
+		<table>{# 시간표 #}
+			<thead>
+				<tr>
+					<th class="tb-1"></th>
+					<th>월</th>
+					<th>화</th>
+					<th>수</th>
+					<th>목</th>
+					<th>금</th>
+				</tr>
+			</thead>
+			<tbody>		
+				{% for i in number2  %}	{# 시간표의 시간 9:00~9:30#}
+						<tr>
+								<th class="tb-2">{{ttime[i]}}</th>
+							{% for week in number %}
+								{% if (week*27+i)in paint %}
+									<td class="ing"></td>
+								{% else %}
+									<td></td>
+								{% endif %}
+							{% endfor %}						
+						</tr>
+				{% endfor %} {#시간표의 시간#}
+			</tbody>
+			
+		</table>
+		</br>
+		</br>
+		</br>
+		</br>
+		</br>
+		<strong>강의실 강의 목록</strong></br></br>
+		<table>
+		<thead>{#강의실 목록#}
+			<th>과목 코드</th>
+			<th>과목 명</th>
+			<th>강의 건물</th>
+			<th>강의실</th>
+			<th>요일</th>
+			<th>강의 시작시간</th>
+			<th>강의 종료시간</th>
+		</thead>
+			{% for le in lecture %}
+			<tr>
+				{% for l in le %}
+					<td>{{l}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</table>
+</body>  
