@@ -118,6 +118,7 @@ def pick_class():
 @app.route('/')
 def demo():
     
+    
     number=0
     
     placearr=[]             
@@ -147,34 +148,46 @@ def demo():
     
     #print(html_time) 여기까진 타임에 문제없음
     
-
     
+
     del html_time[0]
     del html_subjectname[0]
     del html_scode[0]
     
+        
+    print(html_subjectname)
+    print(html_time)
     
     
     for place in html_lectureplace:
         placearr+=place
     del placearr[0]
-       
+    
+ 
     try:
         for i in range(0,len(placearr)-1):           
             placearr[i]=str(placearr[i])
     except IndexError:
         pass
-          
-    for i in range(0,58):           #58=count(<br/>)
-        placearr.remove('<br/>')                        
+    '''placearr 안에있는 배열의 원소를 str형식으로 변환시킴'''
+  
     
-    
+    try:
+        for i in range(0,58):           #58=count(<br/>)
+            placearr.remove('<br/>')                        
+    except ValueError:
+        pass    
+    '''
+            위에서 placearr에 br태그를 제거
+    '''
+   
     '''
                  
         placearr->str->'-'을 기준으로 나눈다->홀 짝 기준으로 새로운 배열에 분리시킨다
     '''
-        
-    tmpstr="-".join(placearr)
+    
+
+    tmpstr='-'.join(map(str,placearr))
     placearrfinal=tmpstr.split('-')     #건물과 호수사이에도 -를 삽입
     
     
@@ -195,6 +208,7 @@ def demo():
     for sc in html_scode:
         scode.append(sc.text)
         
+    print(subject)
     
     tmpst="".join(scode)
     tmpst=tmpst.replace("\t","")
@@ -205,6 +219,7 @@ def demo():
             scode.remove('')
     except ValueError:
         pass
+    
     '''
         scode구현
     '''
@@ -230,10 +245,11 @@ def demo():
         else:
             numoftime.append(number)
             number=0
+   
     '''
                     이부분은 numoftime구현
     '''
-    
+    print(numoftime)
                     
     
     tempstr=tempstr.replace('/&/ ','&')
@@ -260,7 +276,7 @@ def demo():
             classtime.append(time[i])
     
     #print(classtime) 여기까찐 문제가 없는듯 합니다.
-    
+    print(classtime)
     
     timestr="~".join(classtime)
     timestr=timestr.replace(" ","")
@@ -273,9 +289,8 @@ def demo():
         else:
             end.append(classtime[i])
             
-    #print(start)
-    #print(end)여기까지도 문제가 없어요;;
-    
+    print(start)
+    print(end)    
         
         
     
@@ -291,7 +306,7 @@ def demo():
         for j in range(0,len(classroom)):   #strat와 end를 제외한 배열의 길이만큼
             #print(numoftime[j])
             for i in range(0,numoftime[j]):
-                print(j,i)
+               # print(j,i)
                 
                 cur.execute("insert into lecture(code,subject,Building,classroom,week,start,end) values (?,?,?,?,?,?,?)",(scode[j],subject[j],Building[j],classroom[j],week[k],start[k],end[k]))
                 k=k+1
