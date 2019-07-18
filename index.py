@@ -173,7 +173,7 @@ def demo():
   
     
     try:
-        for i in range(0,58):           #58=count(<br/>)
+        for i in range(0,len(placearr)):           #58=count(<br/>)
             placearr.remove('<br/>')                        
     except ValueError:
         pass    
